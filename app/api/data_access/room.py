@@ -13,18 +13,18 @@ def insert_room(room, property_id):
     db.commit()
 
 
-def select_room_by_id(property_id):
+def select_room(property_id):
     db = get_db()
     cursor = db.cursor()
 
     cursor.execute("SELECT * FROM Room WHERE idProperty = %s", (property_id,))
-    rooms = cursor.fetchone()
+    rooms = cursor.fetchall()
 
     cursor.close()
     return rooms
 
 
-def select_room_by_id_by_type(property_id, property_type):
+def select_room_by_type(property_id, property_type):
     db = get_db()
     cursor = db.cursor()
 
@@ -35,7 +35,7 @@ def select_room_by_id_by_type(property_id, property_type):
     return rooms
 
 
-def update_room_by_id_by_type(property_id, value_type, value_number):
+def update_room_by_type(property_id, value_type, value_number):
     db = get_db()
     cursor = db.cursor()
 
@@ -47,7 +47,7 @@ def update_room_by_id_by_type(property_id, value_type, value_number):
     db.commit()
 
 
-def del_room_by_id_by_type(property_id, room_type):
+def delete_room_by_type(property_id, room_type):
     db = get_db()
     cursor = db.cursor()
 
@@ -57,7 +57,7 @@ def del_room_by_id_by_type(property_id, room_type):
     db.commit()
 
 
-def del_room_by_id(property_id):
+def delete_room(property_id):
     db = get_db()
     cursor = db.cursor()
 

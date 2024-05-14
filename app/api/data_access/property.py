@@ -1,7 +1,7 @@
 from app.dependencies import get_db
 
 
-def select_property_by_id(property_id):
+def select_property(property_id):
     db = get_db()
     cursor = db.cursor()
 
@@ -47,7 +47,7 @@ def insert_property(property_base, pricing_id):
     return property_id
 
 
-def update_property_by_id(property_id, key, value):
+def update_property(property_id, key, value):
     db = get_db()
     cursor = db.cursor()
 
@@ -59,7 +59,7 @@ def update_property_by_id(property_id, key, value):
     db.commit()
 
 
-def del_property_by_id(property_id):
+def delete_property(property_id):
     db = get_db()
     cursor = db.cursor()
 

@@ -15,7 +15,7 @@ def insert_pricing(pricing):
     return pricing_id
 
 
-def select_pricing_by_id(id_pricing):
+def select_pricing(id_pricing):
     db = get_db()
     cursor = db.cursor()
 
@@ -26,7 +26,7 @@ def select_pricing_by_id(id_pricing):
     return pricing
 
 
-def update_pricing_by_id(pricing_id, key, value):
+def update_pricing(pricing_id, key, value):
     db = get_db()
     cursor = db.cursor()
 
@@ -38,7 +38,7 @@ def update_pricing_by_id(pricing_id, key, value):
     db.commit()
 
 
-def del_pricing_by_id(pricing_id):
+def delete_pricing(pricing_id):
     db = get_db()
     cursor = db.cursor()
 
