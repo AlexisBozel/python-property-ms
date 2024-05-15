@@ -15,11 +15,11 @@ def insert_pricing(pricing):
     return pricing_id
 
 
-def select_pricing(id_pricing):
+def select_pricing(pricing_id):
     db = get_db()
     cursor = db.cursor()
 
-    cursor.execute("SELECT * FROM Pricing WHERE idPricing = %s", (id_pricing,))
+    cursor.execute("SELECT * FROM Pricing WHERE idPricing = %s", (pricing_id,))
     pricing = cursor.fetchone()
 
     cursor.close()
