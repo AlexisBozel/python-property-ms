@@ -7,6 +7,7 @@ from app.api.data_access.advert import (
     select_adverts_by_property_owner,
     insert_advert,
     update_advert,
+    select_advert_with_filter,
     delete_advert as remove_advert
 )
 
@@ -43,3 +44,48 @@ def put_advert(advert_id, data):
 
 def delete_advert(advert_id):
     remove_advert(advert_id)
+
+
+def get_adverts_with_filters(filter_address, filter_surface_max, filter_surface_min, filter_price_max, filter_price_min,
+                             filter_room):
+    properties = []
+    query = ""
+    if filter_address:
+        # contains address
+        query += " address like %" + filter_address + "% "
+
+    if filter_surface_max and filter_surface_min:
+        # between
+        add_AND_to_query(query)
+        query += " surface BETWEEN " + filter_surface_min + " AND " + filter_surface_max
+    elif filter_surface_max:
+        add_AND_to_query(query)
+        query += " surface <= " + filter_surface_max
+    elif filter_surface_min:
+        add_AND_to_query(query)
+        query += " surface >= " + filter_surface_min
+
+    if filter_price_max and filter_price_min:
+        add_AND_to_query(query)
+        query += " price BETWEEN " + filter_price_min + " AND " + filter_price_max
+    elif filter_price_max:
+        add_AND_to_query(query)
+        query += " price <= " + filter_price_max
+    elif filter_price_min:
+        add_AND_to_query(query)
+        query += " price >= " + filter_price_max
+
+    if filter_room:
+        add_AND_to_query(query)
+        query += " type = " + filter_price_max
+
+    if query != "":
+        properties = select_advert_with_filter(query)
+
+    return properties
+
+
+def add_AND_to_query(query):
+    if query != "":
+        query += " AND "
+    return query

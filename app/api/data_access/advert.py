@@ -13,6 +13,21 @@ def select_advert(advert_id):
     return advert
 
 
+def select_advert_with_filter(partial_query):
+    db = get_db()
+    cursor = db.cursor()
+    query = (("SELECT DISTINCT Property.* FROM Advert, Property, Pricing, Room WHERE Advert.idProperty = "
+              "Property.idProperty"
+              " AND Property.idPricing = Pricing.idPricing AND Room.idProperty = Property.idProperty AND ")
+             + partial_query)
+    print(query)
+    cursor.execute(query)
+    properties_data = cursor.fetchall()
+    cursor.close()
+    db.commit()
+    return properties_data
+
+
 def select_adverts_by_property_owner(owner_id):
     db = get_db()
     cursor = db.cursor()

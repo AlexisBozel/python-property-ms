@@ -4,12 +4,30 @@ from app.api.manager.advert import (
     get_advert as retrieve_advert,
     get_adverts as retrieve_adverts,
     get_adverts_by_property_owner as retrieve_advert_by_property_owner,
+    get_adverts_with_filters as retrieve_advert_with_filters,
     post_advert as create_advert,
     put_advert as update_advert,
     delete_advert as remove_advert
 )
 
 advert_blueprint = Blueprint('advert', __name__)
+
+
+@advert_blueprint.route('/adverts/filter', methods=['GET'])
+def get_filtered_advert():
+    filter_address = request.args.get('address')
+    filter_surface_max = request.args.get('surface_max')
+    filter_surface_min = request.args.get('surface_min')
+    filter_price_max = request.args.get('price_max')
+    filter_price_min = request.args.get('price_min')
+    filter_room = request.args.get('room')
+
+    properties = retrieve_advert_with_filters(filter_address, filter_surface_max, filter_surface_min, filter_price_max,
+                                              filter_price_min, filter_room)
+    return jsonify({
+        'message': 'Properties get successfully',
+        'status': 'Success',
+        "result": properties}), 201
 
 
 @advert_blueprint.route('/advert/<int:advert_id>', methods=['GET'])

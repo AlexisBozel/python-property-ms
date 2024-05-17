@@ -7,6 +7,7 @@ from app.api.manager.property import (
     put_property as update_property,
     delete_property as remove_property
 )
+
 property_blueprint = Blueprint('property', __name__)
 
 
