@@ -15,7 +15,7 @@ class AdvertOutputBase(AbstractSchema):
     idAdvert: int
     property: PropertyOutputBase
     title: str
-    description: bool
+    description: str
     dtCreation: datetime
     dtModification: datetime
     dtAvailability: datetime

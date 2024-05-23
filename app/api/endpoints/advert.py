@@ -22,12 +22,12 @@ def get_filtered_advert():
     filter_price_min = request.args.get('price_min')
     filter_room = request.args.get('room')
 
-    properties = retrieve_advert_with_filters(filter_address, filter_surface_max, filter_surface_min, filter_price_max,
+    adverts = retrieve_advert_with_filters(filter_address, filter_surface_max, filter_surface_min, filter_price_max,
                                               filter_price_min, filter_room)
     return jsonify({
         'message': 'Properties get successfully',
         'status': 'Success',
-        "result": properties}), 201
+        "result": adverts}), 201
 
 
 @advert_blueprint.route('/advert/<int:advert_id>', methods=['GET'])
@@ -44,6 +44,9 @@ def get_advert(advert_id):
 @advert_blueprint.route('/adverts', methods=['GET'])
 def get_adverts():
     adverts = retrieve_adverts()
+    print("zueb")
+
+    print(adverts)
     return jsonify({
         'message': 'Adverts get successfully',
         'status': 'Success',

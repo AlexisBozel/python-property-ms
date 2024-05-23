@@ -51,7 +51,7 @@ def get_full_data_from_property(property_data):
         missing = [{"field": _["loc"][-1], "errorType": _["type"]} for _ in e.errors()]
         print(missing)
         return jsonify({"status": "error", "stack": missing}), 400
-    return property_base
+    return property_base.dict()
 
 
 def get_property(property_id):
@@ -66,7 +66,7 @@ def get_properties():
     for property_tmp in properties_partial_data:
         property_base = get_full_data_from_property(property_tmp)
         print(property_base)
-        properties.append(property_base.dict())
+        properties.append(property_base)
     return properties
 
 

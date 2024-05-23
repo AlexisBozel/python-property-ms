@@ -1,6 +1,9 @@
 from pydantic import ValidationError
 from flask import jsonify
-from app.api.schemas.advert import AdvertInputBase
+from app.api.schemas.advert import AdvertInputBase, AdvertOutputBase
+from app.api.manager.property import (
+    get_property
+)
 from app.api.data_access.advert import (
     select_advert,
     select_adverts,
@@ -10,18 +13,51 @@ from app.api.data_access.advert import (
     select_advert_with_filter,
     delete_advert as remove_advert
 )
+from app.api.schemas.property import PropertyOutputBase
 
 
 def get_advert(advert_id):
-    return select_advert(advert_id)
+    advert = select_advert(advert_id)
+    advert_base = get_full_advert(advert)
+    return advert_base
 
 
 def get_adverts():
-    return select_adverts()
+    adverts = select_adverts()
+    adverts_base = []
+    for advert in adverts:
+        advert_tmp = get_full_advert(advert)
+        print(advert_tmp)
+        adverts_base.append(advert_tmp)
+    print(adverts_base)
+
+    return adverts_base
+
+
+def get_full_advert(advert):
+    property_id = advert["idProperty"]
+    property = get_property(property_id)
+    try:
+        advert_base = AdvertOutputBase(
+            idAdvert=advert.get("idAdvert"),
+            property=property,
+            title=advert.get("title"),
+            description=advert.get("description"),
+            dtCreation=advert.get("dtCreation"),
+            dtModification=advert.get("dtModification"),
+            dtAvailability=advert.get("dtAvailability"),
+        )
+    except ValidationError as e:
+        missing = [{"field": _["loc"][-1], "errorType": _["type"]} for _ in e.errors()]
+        print(missing)
+        return jsonify({"status": "error", "stack": missing}), 400
+    return advert_base.dict()
 
 
 def get_adverts_by_property_owner(owner_id):
-    return select_adverts_by_property_owner(owner_id)
+    advert = select_adverts_by_property_owner(owner_id)
+    advert_base = get_full_advert(advert)
+    return advert_base
 
 
 def post_advert(data):
@@ -48,7 +84,7 @@ def delete_advert(advert_id):
 
 def get_adverts_with_filters(filter_address, filter_surface_max, filter_surface_min, filter_price_max, filter_price_min,
                              filter_room):
-    properties = []
+    adverts_base = []
     query = ""
     if filter_address:
         # contains address
@@ -80,9 +116,12 @@ def get_adverts_with_filters(filter_address, filter_surface_max, filter_surface_
         query += " type = " + filter_price_max
 
     if query != "":
-        properties = select_advert_with_filter(query)
+        adverts = select_advert_with_filter(query)
+        for advert in adverts:
+            advert_tmp = get_full_advert(advert)
+            adverts_base.append(advert_tmp)
 
-    return properties
+    return adverts_base
 
 
 def add_AND_to_query(query):
