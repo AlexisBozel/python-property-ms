@@ -19,7 +19,7 @@ def get_property(property_id):
     return jsonify({
         'message': 'Property get successfully',
         'status': "Success",
-        "result": property_base.dict()}), 201
+        "result": property_base}), 201
 
 
 @property_blueprint.route('/properties', methods=['GET'])
