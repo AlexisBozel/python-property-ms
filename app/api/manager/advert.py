@@ -88,7 +88,7 @@ def get_adverts_with_filters(filter_address, filter_surface_max, filter_surface_
     query = ""
     if filter_address:
         # contains address
-        query += " address like %" + filter_address + "% "
+        query += " address like '%" + filter_address + "%' "
 
     if filter_surface_max and filter_surface_min:
         # between
