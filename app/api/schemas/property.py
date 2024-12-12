@@ -9,9 +9,6 @@ class PropertyInputBase(AbstractSchema):
     terrace: bool
     surface: float
     internet: str
-    pricing: PricingBase
-    rooms: list[RoomBase] = None
-
 
 class PropertyOutputBase(AbstractSchema):
     idProperty: int = None
@@ -20,5 +17,3 @@ class PropertyOutputBase(AbstractSchema):
     terrace: bool
     surface: float
     internet: str
-    pricing: PricingBase
-    rooms: list[RoomBase]

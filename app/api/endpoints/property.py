@@ -2,10 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from app.api.manager.property import (
     get_properties as retrieve_properties,
-    get_property as retrieve_property_by_id,
-    post_property as create_property,
-    put_property as update_property,
-    delete_property as remove_property
+    get_property as retrieve_property_by_id
 )
 
 property_blueprint = Blueprint('property', __name__)
@@ -29,29 +26,3 @@ def get_properties():
         'message': 'Properties get successfully',
         'status': 'Success',
         "result": properties}), 201
-
-
-@property_blueprint.route('/property', methods=['POST'])
-def post_property():
-    data = request.get_json()
-    create_property(data)
-    return jsonify({
-        'message': 'Property registered successfully',
-        'status': 'Success'}), 201
-
-
-@property_blueprint.route('/property/<int:property_id>', methods=['PUT'])
-def put_property(property_id):
-    data = request.get_json()
-    update_property(property_id, data)
-    return jsonify({
-        'message': 'Property update successfully',
-        'status': 'Success'}), 201
-
-
-@property_blueprint.route('/property/<int:property_id>', methods=['DELETE'])
-def delete_property(property_id):
-    remove_property(property_id)
-    return jsonify({
-        'message': 'Property delete successfully',
-        'status': 'Success'}), 201

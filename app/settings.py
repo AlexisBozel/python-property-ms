@@ -6,12 +6,11 @@ load_dotenv()
 
 
 class Config:
-    HOST = os.environ.get('DB_HOST', 'mysql://localhost:27017/mydatabase')
-    USERNAME = os.environ.get('DB_USERNAME', 'admin')
-    PASSWORD = os.environ.get('DB_PASSWORD', '<PASSWORD>')
-    PORT = os.environ.get('DB_PORT', '27017')
-    DB_NAME = os.environ.get('DB_NAME', 'mydatabase')
-
+    HOST = os.environ.get('DB_HOST', 'my-release-mysql.default.svc.cluster.local')
+    USERNAME = os.environ.get('DB_USERNAME', 'root')
+    PASSWORD = os.environ.get('DB_PASSWORD', 'my-root-password')
+    PORT = os.environ.get('DB_PORT', '3307')
+    DB_NAME = os.environ.get('DB_NAME', 'python_property_service')
 
 class DevelopmentConfig(Config):
     DEBUG = True
