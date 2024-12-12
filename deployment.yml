@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: python-property-ms
-        image: totank4545/pyhton-property-ms:v1
+        image: totank4545/python-property-ms:v1
         ports:
         - containerPort: 5000
 ---
